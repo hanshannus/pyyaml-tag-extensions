@@ -1,0 +1,17 @@
+[tool.poetry]
+name = "pyyaml-tag-extensions"
+version = "0.1.0"
+description = ""
+authors = ["Johannes Hecher <31933940+hanshannus@users.noreply.github.com>"]
+readme = "README.md"
+packages = [{include = "yates"}]
+
+[tool.poetry.dependencies]
+python = "^3.9"
+pyyaml = "^6.0"
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
+
