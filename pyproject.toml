@@ -1,14 +1,17 @@
 [tool.poetry]
 name = "yates"
-version = "0.0.2"
+version = "0.0.3"
 description = ""
 authors = ["Johannes Hecher <31933940+hanshannus@users.noreply.github.com>"]
 readme = "README.md"
-packages = [{include = "yates"}]
+packages = [{include = "yaex"}]
 
 [tool.poetry.dependencies]
 python = "^3.9"
 pyyaml = "^6.0"
+
+[tool.poetry.group.dev.dependencies]
+jupyter = "^1.0.0"
 
 [build-system]
 requires = ["poetry-core"]
