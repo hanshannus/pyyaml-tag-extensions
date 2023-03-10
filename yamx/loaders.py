@@ -184,6 +184,33 @@ class ExtendedLoader(yaml.SafeLoader):
 
         return value
 
+    @staticmethod
+    def _and(loader: "ExtendedLoader", node: Node):
+        assert isinstance(node, yaml.SequenceNode)
+        values = loader.construct_sequence(node)
+        res = values[0]
+        for value in values[1:]:
+            res &= value
+        return res
+
+    @staticmethod
+    def _or(loader: "ExtendedLoader", node: Node):
+        assert isinstance(node, yaml.SequenceNode)
+        values = loader.construct_sequence(node)
+        res = values[0]
+        for value in values[1:]:
+            res |= value
+        return res
+
+    @staticmethod
+    def _xor(loader: "ExtendedLoader", node: Node):
+        assert isinstance(node, yaml.SequenceNode)
+        values = loader.construct_sequence(node)
+        res = values[0]
+        for value in values[1:]:
+            res ^= value
+        return res
+
     def _dynamic(self, loader: "ExtendedLoader", node: Node):
         # list of custom tags to parse
         if node.tag.startswith("!chain"):
@@ -198,6 +225,12 @@ class ExtendedLoader(yaml.SafeLoader):
             return self._import(loader, node)
         if node.tag.startswith("!env"):
             return self._env(loader, node)
+        if node.tag.startswith("!and"):
+            return self._and(loader, node)
+        if node.tag.startswith("!or"):
+            return self._or(loader, node)
+        if node.tag.startswith("!xor"):
+            return self._xor(loader, node)
         # parse standard tags
         if isinstance(node, yaml.ScalarNode):
             constructor = loader.construct_scalar
