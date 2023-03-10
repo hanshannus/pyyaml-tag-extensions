@@ -11,6 +11,7 @@ description = ""
 [tool.poetry.dependencies]
 python = "^3.9"
 pyyaml = "^6.0"
+omegaconf = "^2.3.0"
 
 [tool.poetry.group.dev.dependencies]
 jupyter = "^1.0.0"
