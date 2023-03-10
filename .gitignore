@@ -130,3 +130,7 @@ dmypy.json
 
 # Pyre type checker
 .pyre/
+
+# files created for demonstration
+notebooks/constants.yaml
+notebooks/example_module.py

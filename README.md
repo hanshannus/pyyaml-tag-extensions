@@ -1,4 +1,4 @@
-# Yaml Tag Extensions (Yates)
+# Yaml Tag Extensions (yamx)
 
 - extend PyYaml's `SafeLoader` class with customized tags
 - define decorators 
@@ -100,4 +100,3 @@ class: !init:package.Class
 # import package.Class
 # package.Class("my_file.txt")
 ```
-
