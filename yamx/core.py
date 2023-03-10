@@ -1,15 +1,23 @@
-from .loaders import ExtendedLoader
 from pathlib import Path
 import yaml
 import io
 from typing import IO, Union
 
+# library imports
+from .loaders import ExtendedLoader
 
-def load(filepath, root="global"):
+
+def load(
+    filepath,
+    root="global",
+):
     return Yaml.load(filepath, root=root)
 
 
-def loads(stream: Union[str, IO], root="global"):
+def loads(
+    stream: Union[str, IO],
+    root="global",
+):
     return Yaml.loads(stream, root=root)
 
 
@@ -20,12 +28,20 @@ class Yaml(ExtendedLoader):
         super().__init__(stream)
 
     @classmethod
-    def load(cls, filepath: Union[str, Path], root: Union[str, Path] = "global"):
+    def load(
+        cls,
+        filepath: Union[str, Path],
+        root: Union[str, Path] = "global",
+    ):
         with Path(filepath).open() as stream:
             return cls.loads(stream, root=root)
 
     @classmethod
-    def loads(cls, stream: Union[str, IO], root: Union[str, Path] = "global"):
+    def loads(
+        cls,
+        stream: Union[str, IO],
+        root: Union[str, Path] = "global",
+    ):
         if isinstance(root, str) and root == "global":
             if isinstance(stream, IO):
                 cls.root_dir = Path(stream.name).resolve().parent

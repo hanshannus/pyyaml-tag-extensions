@@ -1,10 +1,15 @@
 from functools import wraps
 from pathlib import Path
 from typing import Union, Callable, Dict, Any
+
+# library imports
 from .core import Yaml
 
 
-def load(filepath: Union[str, Path], root: Union[str, Path] = "global"):
+def load(
+    filepath: Union[str, Path],
+    root: Union[str, Path] = "global",
+):
     def wrapper(func: Callable):
         @wraps(func)
         def wrapped(cfg: Dict[str, Any] = None):
@@ -12,5 +17,7 @@ def load(filepath: Union[str, Path], root: Union[str, Path] = "global"):
                 return func(cfg)
             else:
                 return func(Yaml.load(filepath, root=root))
+
         return wrapped
+
     return wrapper

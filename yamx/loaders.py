@@ -14,7 +14,7 @@ def _load_module(import_str: str):
 
 
 def _load_file(filename, root=None):
-    with open(filename, 'r') as stream:
+    with open(filename, "r") as stream:
         new_loader = ExtendedLoader
         new_loader.root_dir = root
         return yaml.load(stream, Loader=new_loader)
@@ -68,7 +68,7 @@ class ExtendedLoader(yaml.SafeLoader):
     -------
 
     Using `!from`
-    
+
     .. highlight:: yaml
     .. code-block:: yaml
         # constants.yaml
@@ -82,6 +82,7 @@ class ExtendedLoader(yaml.SafeLoader):
     >>> yamx.loads("key: !from:constants/value")
     {key: 123}
     """
+
     root_dir: Path = None
     suffix: str = "y*ml"
 
@@ -177,7 +178,7 @@ class ExtendedLoader(yaml.SafeLoader):
             return float(value)
         except ValueError:
             pass
-            
+
         if value[0] in ["'", '"'] and value[-1] in ["'", '"']:
             value = value[1:-1]
 
