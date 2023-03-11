@@ -211,8 +211,22 @@ class ExtendedLoader(yaml.SafeLoader):
             res ^= value
         return res
 
+    @staticmethod
+    def _len(loader: "ExtendedLoader", node: Node):
+        assert isinstance(node, yaml.SequenceNode)
+        values = loader.construct_sequence(node)
+        return len(values)
+
+    @staticmethod
+    def _eval(loader: "ExtendedLoader", node: Node):
+        assert isinstance(node, yaml.ScalarNode)
+        value = loader.construct_scalar(node)
+        return eval(value)
+
     def _dynamic(self, loader: "ExtendedLoader", node: Node):
         # list of custom tags to parse
+        if node.tag.startswith("!len"):
+            return self._len(loader, node)
         if node.tag.startswith("!chain"):
             return self._chain(loader, node)
         if node.tag.startswith("!call"):
@@ -231,6 +245,8 @@ class ExtendedLoader(yaml.SafeLoader):
             return self._or(loader, node)
         if node.tag.startswith("!xor"):
             return self._xor(loader, node)
+        if node.tag.startswith("!eval"):
+            return self._eval(loader, node)
         # parse standard tags
         if isinstance(node, yaml.ScalarNode):
             constructor = loader.construct_scalar
