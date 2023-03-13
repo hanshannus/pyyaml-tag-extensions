@@ -1,3 +1,1 @@
-antlr4-python3-runtime==4.9.3 ; python_full_version >= "3.8.1" and python_full_version < "4.0.0"
-omegaconf==2.3.0 ; python_full_version >= "3.8.1" and python_full_version < "4.0.0"
 pyyaml==6.0 ; python_full_version >= "3.8.1" and python_full_version < "4.0.0"

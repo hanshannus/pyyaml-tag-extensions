@@ -134,3 +134,5 @@ dmypy.json
 # files created for demonstration
 notebooks/constants.yaml
 notebooks/example_module.py
+/poetry.lock
+/.vscode/settings.json
