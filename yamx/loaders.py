@@ -1,10 +1,13 @@
-import yaml
-import yaml.constructor
 import importlib
 import os
+import re
+import tempfile
+import yaml
+import yaml.constructor
 from yaml import Node
 from pathlib import Path
 from typing import IO, Callable
+from importlib.machinery import SourceFileLoader
 
 
 def _load_module(import_str: str):
@@ -221,7 +224,22 @@ class ExtendedLoader(yaml.SafeLoader):
     def _eval(loader: "ExtendedLoader", node: Node):
         assert isinstance(node, yaml.ScalarNode)
         value = loader.construct_scalar(node)
+        assert isinstance(value, str)
         return eval(value)
+
+    @staticmethod
+    def _func(loader: "ExtendedLoader", node: Node):
+        # find function name
+        regexp = r"(?P<def>def)\s(?P<function>\w+)\((?P<params>.*)\):"
+        match = re.search(regexp, node.value)
+        name = match.group("function")
+        # save value in temporary file
+        tmp = tempfile.NamedTemporaryFile(suffix=".py")
+        with open(tmp.name, "w") as f:
+            f.write(node.value)
+        # import function
+        module = SourceFileLoader("tmp", tmp.name).load_module()
+        return getattr(module, name)
 
     def _dynamic(self, loader: "ExtendedLoader", node: Node):
         # list of custom tags to parse
@@ -247,6 +265,8 @@ class ExtendedLoader(yaml.SafeLoader):
             return self._xor(loader, node)
         if node.tag.startswith("!eval"):
             return self._eval(loader, node)
+        if node.tag.startswith("!func"):
+            return self._func(loader, node)
         # parse standard tags
         if isinstance(node, yaml.ScalarNode):
             constructor = loader.construct_scalar

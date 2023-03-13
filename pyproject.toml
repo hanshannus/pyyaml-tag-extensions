@@ -1,15 +1,12 @@
 [tool.poetry]
 name = "yamx"
-version = "0.1.1"
+version = "0.1.2"
 authors = ["Johannes Hecher"]
 readme = "README.md"
-packages = [
-    { include = "yamx" }
-]
 description = ""
 
 [tool.poetry.dependencies]
-python = "^3.9"
+python = "^3.8.1"
 pyyaml = "^6.0"
 omegaconf = "^2.3.0"
 
